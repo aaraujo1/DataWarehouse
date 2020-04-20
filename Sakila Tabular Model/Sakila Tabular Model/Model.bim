@@ -19,6 +19,8 @@
         "options": {},
         "credential": {
           "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "localhost;SakilaDW_AGA",
           "Username": "bitdw\\bitstudent",
           "EncryptConnection": false
         }
@@ -26,11 +28,12 @@
     ],
     "tables": [
       {
-        "name": "DimDate",
+        "name": "Dates",
         "columns": [
           {
             "name": "DateKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "DateKey"
           },
           {
@@ -39,17 +42,17 @@
             "sourceColumn": "Date"
           },
           {
-            "name": "DayOfMonth",
+            "name": "Day Of The Month",
             "dataType": "int64",
             "sourceColumn": "DayOfMonth"
           },
           {
-            "name": "MonthNumber",
+            "name": "Month Number",
             "dataType": "int64",
             "sourceColumn": "MonthNumber"
           },
           {
-            "name": "MonthName",
+            "name": "Month Name",
             "dataType": "string",
             "sourceColumn": "MonthName"
           },
@@ -59,19 +62,33 @@
             "sourceColumn": "Year"
           },
           {
-            "name": "DayOfWeekName",
+            "name": "Day Of The Week Name",
             "dataType": "string",
             "sourceColumn": "DayOfWeekName"
           },
           {
-            "name": "DayOfWeekNumber",
+            "name": "Day Of The Week Number",
             "dataType": "int64",
             "sourceColumn": "DayOfWeekNumber"
           },
           {
-            "name": "IsWeekend",
+            "name": "Is Weekend",
             "dataType": "boolean",
             "sourceColumn": "IsWeekend"
+          },
+          {
+            "type": "calculated",
+            "name": "Date Text",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Month Name]&\" \"&[Day Of The Month]&\", \"&[Year]"
+          },
+          {
+            "type": "calculated",
+            "name": "Date Text w/ Day",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Day Of The Week Name]&\", \"&[Date Text]"
           }
         ],
         "partitions": [
@@ -92,60 +109,62 @@
         ]
       },
       {
-        "name": "DimFilm",
+        "name": "Films",
         "columns": [
           {
             "name": "FilmKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmKey"
           },
           {
             "name": "FilmID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmID"
           },
           {
-            "name": "Title",
+            "name": "Film Titile",
             "dataType": "string",
             "sourceColumn": "Title"
           },
           {
-            "name": "Description",
+            "name": "Film Description",
             "dataType": "string",
             "sourceColumn": "Description"
           },
           {
-            "name": "ReleaseYear",
+            "name": "Film Release Year",
             "dataType": "double",
             "sourceColumn": "ReleaseYear"
           },
           {
-            "name": "RentalDuration",
+            "name": "Film Rental Duration",
             "dataType": "int64",
             "sourceColumn": "RentalDuration"
           },
           {
-            "name": "RentalRate",
+            "name": "Film Rental Rate",
             "dataType": "double",
             "sourceColumn": "RentalRate"
           },
           {
-            "name": "Length",
+            "name": "Film Length",
             "dataType": "int64",
             "sourceColumn": "Length"
           },
           {
-            "name": "ReplacementCost",
+            "name": "Film Replacement Cost",
             "dataType": "double",
             "sourceColumn": "ReplacementCost"
           },
           {
-            "name": "Rating",
+            "name": "Film Rating",
             "dataType": "string",
             "sourceColumn": "Rating"
           },
           {
-            "name": "SpecialFeatures",
+            "name": "Film Special Features",
             "dataType": "string",
             "sourceColumn": "SpecialFeatures"
           }
@@ -168,20 +187,22 @@
         ]
       },
       {
-        "name": "DimFilmCategory",
+        "name": "Film Categories",
         "columns": [
           {
             "name": "FilmCategoryKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmCategoryKey"
           },
           {
             "name": "CategoryID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "CategoryID"
           },
           {
-            "name": "CategoryName",
+            "name": "Film Category Name",
             "dataType": "string",
             "sourceColumn": "CategoryName"
           }
@@ -204,20 +225,22 @@
         ]
       },
       {
-        "name": "DimFilmLanguage",
+        "name": "Film Languages",
         "columns": [
           {
             "name": "FilmLanguageKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmLanguageKey"
           },
           {
             "name": "LanguageID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "LanguageID"
           },
           {
-            "name": "LanguageName",
+            "name": "Film Language Name",
             "dataType": "string",
             "sourceColumn": "LanguageName"
           }
@@ -240,20 +263,22 @@
         ]
       },
       {
-        "name": "DimRentalCity",
+        "name": "Rental Cities",
         "columns": [
           {
             "name": "RentalCityKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalCityKey"
           },
           {
             "name": "CityID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "CityID"
           },
           {
-            "name": "CityName",
+            "name": "Rental City Name",
             "dataType": "string",
             "sourceColumn": "CityName"
           }
@@ -276,20 +301,22 @@
         ]
       },
       {
-        "name": "DimRentalCountry",
+        "name": "Rental Countries",
         "columns": [
           {
             "name": "RentalCountryKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalCountryKey"
           },
           {
             "name": "CountryID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "CountryID"
           },
           {
-            "name": "CountryName",
+            "name": "Rental Country Name",
             "dataType": "string",
             "sourceColumn": "CountryName"
           }
@@ -312,67 +339,78 @@
         ]
       },
       {
-        "name": "DimStore",
+        "name": "Stores",
         "columns": [
           {
             "name": "StoreKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "StoreKey"
           },
           {
             "name": "StoreID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "StoreID"
           },
           {
             "name": "StoreManagerFirstName",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "StoreManagerFirstName"
           },
           {
             "name": "StoreManagerLastName",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "StoreManagerLastName"
           },
           {
-            "name": "StoreManagerEmail",
+            "name": "Store Manager Email",
             "dataType": "string",
             "sourceColumn": "StoreManagerEmail"
           },
           {
-            "name": "StoreAddressLine1",
+            "name": "Store Address Line 1",
             "dataType": "string",
             "sourceColumn": "StoreAddressLine1"
           },
           {
-            "name": "StoreAddressLine2",
+            "name": "Store Addres sLine 2",
             "dataType": "string",
             "sourceColumn": "StoreAddressLine2"
           },
           {
-            "name": "StoreDistrict",
+            "name": "Store District",
             "dataType": "string",
             "sourceColumn": "StoreDistrict"
           },
           {
-            "name": "StoreCity",
+            "name": "Store City",
             "dataType": "string",
             "sourceColumn": "StoreCity"
           },
           {
-            "name": "StoreCountry",
+            "name": "Store Country",
             "dataType": "string",
             "sourceColumn": "StoreCountry"
           },
           {
-            "name": "StorePostalCode",
+            "name": "Store Postal Code",
             "dataType": "string",
             "sourceColumn": "StorePostalCode"
           },
           {
-            "name": "StorePhone",
+            "name": "Store Phone",
             "dataType": "string",
             "sourceColumn": "StorePhone"
+          },
+          {
+            "type": "calculated",
+            "name": "Store Manager Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "([StoreManagerFirstName]&\" \"&[StoreManagerLastName])"
           }
         ],
         "partitions": [
@@ -393,92 +431,112 @@
         ]
       },
       {
-        "name": "FactRental",
+        "name": "Rentals",
         "columns": [
           {
             "name": "RentalKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalKey"
           },
           {
             "name": "RentalID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalID"
           },
           {
-            "name": "RentalDate",
+            "name": "Rental Date",
             "dataType": "dateTime",
             "sourceColumn": "RentalDate"
           },
           {
-            "name": "ReturnDate",
+            "name": "Return Date",
             "dataType": "dateTime",
             "sourceColumn": "ReturnDate"
           },
           {
             "name": "RentalDuration",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalDuration"
           },
           {
-            "name": "Amount",
+            "name": "Rental Amount",
             "dataType": "double",
             "sourceColumn": "Amount"
           },
           {
-            "name": "PaymentDate",
+            "name": "Payment Date",
             "dataType": "dateTime",
             "sourceColumn": "PaymentDate"
           },
           {
             "name": "FilmKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmKey"
           },
           {
             "name": "FilmCategoryKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmCategoryKey"
           },
           {
             "name": "FilmLanguageKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "FilmLanguageKey"
           },
           {
             "name": "RentalCityKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalCityKey"
           },
           {
             "name": "RentalCountryKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalCountryKey"
           },
           {
             "name": "CustomerKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "CustomerKey"
           },
           {
             "name": "StoreKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "StoreKey"
           },
           {
             "name": "RentalDateKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "RentalDateKey"
           },
           {
             "name": "ReturnDateKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "ReturnDateKey"
           },
           {
             "name": "PaymentDateKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "PaymentDateKey"
+          },
+          {
+            "type": "calculated",
+            "name": "Rental Duration",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "DATEDIFF([Rental Date],[Return Date],DAY)"
           }
         ],
         "partitions": [
@@ -497,72 +555,222 @@
             }
           }
         ]
+      },
+      {
+        "name": "Rental Measures",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "col1",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "sourceColumn": "[col1]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " DATATABLE(\"col1\", STRING, {{\"\"}})"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Rental Amount",
+            "expression": "SUM(Rentals[Rental Amount])"
+          }
+        ]
+      },
+      {
+        "name": "Customers",
+        "columns": [
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "CustomerID",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerID"
+          },
+          {
+            "name": "CustomerFirstName",
+            "dataType": "string",
+            "isHidden": true,
+            "sourceColumn": "CustomerFirstName"
+          },
+          {
+            "name": "CustomerLastName",
+            "dataType": "string",
+            "isHidden": true,
+            "sourceColumn": "CustomerLastName"
+          },
+          {
+            "name": "Customer Email",
+            "dataType": "string",
+            "sourceColumn": "CustomerEmail"
+          },
+          {
+            "name": "Customer Address Line 1",
+            "dataType": "string",
+            "sourceColumn": "CustomerAddressLine1"
+          },
+          {
+            "name": "Customer Address Line 2",
+            "dataType": "string",
+            "sourceColumn": "CustomerAddressLine2"
+          },
+          {
+            "name": "Customer District",
+            "dataType": "string",
+            "sourceColumn": "CustomerDistrict"
+          },
+          {
+            "name": "Customer City",
+            "dataType": "string",
+            "sourceColumn": "CustomerCity"
+          },
+          {
+            "name": "Customer Country",
+            "dataType": "string",
+            "sourceColumn": "CustomerCountry"
+          },
+          {
+            "name": "Customer Postal Code",
+            "dataType": "string",
+            "sourceColumn": "CustomerPostalCode"
+          },
+          {
+            "name": "Customer Phone",
+            "dataType": "string",
+            "sourceColumn": "CustomerPhone"
+          },
+          {
+            "name": "Customer Is Active",
+            "dataType": "boolean",
+            "sourceColumn": "CustomerIsActive"
+          },
+          {
+            "name": "CustomerCreateDate",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "CustomerCreateDate"
+          },
+          {
+            "name": "StartDate",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "StartDate"
+          },
+          {
+            "name": "EndDate",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "EndDate"
+          },
+          {
+            "name": "CurrentRowIndicator",
+            "dataType": "boolean",
+            "isHidden": true,
+            "sourceColumn": "CurrentRowIndicator"
+          },
+          {
+            "type": "calculated",
+            "name": "Customer Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[CustomerFirstName]&\" \"&[CustomerLastName]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimCustomer = Source{[Schema=\"dbo\",Item=\"DimCustomer\"]}[Data]",
+                "in",
+                "    dbo_DimCustomer"
+              ]
+            }
+          }
+        ]
       }
     ],
     "relationships": [
       {
         "name": "94698d47-5f6a-41f5-a2da-b925d23b9bd3",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "PaymentDateKey",
-        "toTable": "DimDate",
+        "toTable": "Dates",
         "toColumn": "DateKey",
         "isActive": false
       },
       {
         "name": "9aed9c52-ed76-4691-b3ef-dab7344ece4c",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "ReturnDateKey",
-        "toTable": "DimDate",
+        "toTable": "Dates",
         "toColumn": "DateKey",
         "isActive": false
       },
       {
         "name": "30c92296-4939-4734-bd09-58df71073493",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "RentalDateKey",
-        "toTable": "DimDate",
+        "toTable": "Dates",
         "toColumn": "DateKey"
       },
       {
         "name": "f58a6dd7-d5b7-4e59-af10-aed78a47db6c",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "FilmKey",
-        "toTable": "DimFilm",
+        "toTable": "Films",
         "toColumn": "FilmKey"
       },
       {
         "name": "a82bdea0-825b-471c-a143-5f48780e377d",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "FilmCategoryKey",
-        "toTable": "DimFilmCategory",
+        "toTable": "Film Categories",
         "toColumn": "FilmCategoryKey"
       },
       {
         "name": "1dd27773-6bd3-4fd9-863d-9f183fad3db5",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "FilmLanguageKey",
-        "toTable": "DimFilmLanguage",
+        "toTable": "Film Languages",
         "toColumn": "FilmLanguageKey"
       },
       {
         "name": "f76e3d14-65b2-4ba4-a679-df5363b82db1",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "RentalCityKey",
-        "toTable": "DimRentalCity",
+        "toTable": "Rental Cities",
         "toColumn": "RentalCityKey"
       },
       {
         "name": "a48e7d08-9a96-4f70-9cda-28e54c9ad797",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "RentalCountryKey",
-        "toTable": "DimRentalCountry",
+        "toTable": "Rental Countries",
         "toColumn": "RentalCountryKey"
       },
       {
         "name": "5e47c0d9-e304-44a1-91ef-c2c85c1f61ef",
-        "fromTable": "FactRental",
+        "fromTable": "Rentals",
         "fromColumn": "StoreKey",
-        "toTable": "DimStore",
+        "toTable": "Stores",
         "toColumn": "StoreKey"
       }
     ],
