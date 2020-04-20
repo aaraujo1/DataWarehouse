@@ -3,6 +3,569 @@
   "compatibilityLevel": 1500,
   "model": {
     "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/localhost;SakilaDW_AGA",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "localhost",
+            "database": "SakilaDW_AGA"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "Username": "bitdw\\bitstudent",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "DimDate",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date"
+          },
+          {
+            "name": "DayOfMonth",
+            "dataType": "int64",
+            "sourceColumn": "DayOfMonth"
+          },
+          {
+            "name": "MonthNumber",
+            "dataType": "int64",
+            "sourceColumn": "MonthNumber"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year"
+          },
+          {
+            "name": "DayOfWeekName",
+            "dataType": "string",
+            "sourceColumn": "DayOfWeekName"
+          },
+          {
+            "name": "DayOfWeekNumber",
+            "dataType": "int64",
+            "sourceColumn": "DayOfWeekNumber"
+          },
+          {
+            "name": "IsWeekend",
+            "dataType": "boolean",
+            "sourceColumn": "IsWeekend"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data]",
+                "in",
+                "    dbo_DimDate"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimFilm",
+        "columns": [
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "FilmID",
+            "dataType": "int64",
+            "sourceColumn": "FilmID"
+          },
+          {
+            "name": "Title",
+            "dataType": "string",
+            "sourceColumn": "Title"
+          },
+          {
+            "name": "Description",
+            "dataType": "string",
+            "sourceColumn": "Description"
+          },
+          {
+            "name": "ReleaseYear",
+            "dataType": "double",
+            "sourceColumn": "ReleaseYear"
+          },
+          {
+            "name": "RentalDuration",
+            "dataType": "int64",
+            "sourceColumn": "RentalDuration"
+          },
+          {
+            "name": "RentalRate",
+            "dataType": "double",
+            "sourceColumn": "RentalRate"
+          },
+          {
+            "name": "Length",
+            "dataType": "int64",
+            "sourceColumn": "Length"
+          },
+          {
+            "name": "ReplacementCost",
+            "dataType": "double",
+            "sourceColumn": "ReplacementCost"
+          },
+          {
+            "name": "Rating",
+            "dataType": "string",
+            "sourceColumn": "Rating"
+          },
+          {
+            "name": "SpecialFeatures",
+            "dataType": "string",
+            "sourceColumn": "SpecialFeatures"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimFilm = Source{[Schema=\"dbo\",Item=\"DimFilm\"]}[Data]",
+                "in",
+                "    dbo_DimFilm"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimFilmCategory",
+        "columns": [
+          {
+            "name": "FilmCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmCategoryKey"
+          },
+          {
+            "name": "CategoryID",
+            "dataType": "int64",
+            "sourceColumn": "CategoryID"
+          },
+          {
+            "name": "CategoryName",
+            "dataType": "string",
+            "sourceColumn": "CategoryName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimFilmCategory = Source{[Schema=\"dbo\",Item=\"DimFilmCategory\"]}[Data]",
+                "in",
+                "    dbo_DimFilmCategory"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimFilmLanguage",
+        "columns": [
+          {
+            "name": "FilmLanguageKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmLanguageKey"
+          },
+          {
+            "name": "LanguageID",
+            "dataType": "int64",
+            "sourceColumn": "LanguageID"
+          },
+          {
+            "name": "LanguageName",
+            "dataType": "string",
+            "sourceColumn": "LanguageName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimFilmLanguage = Source{[Schema=\"dbo\",Item=\"DimFilmLanguage\"]}[Data]",
+                "in",
+                "    dbo_DimFilmLanguage"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimRentalCity",
+        "columns": [
+          {
+            "name": "RentalCityKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalCityKey"
+          },
+          {
+            "name": "CityID",
+            "dataType": "int64",
+            "sourceColumn": "CityID"
+          },
+          {
+            "name": "CityName",
+            "dataType": "string",
+            "sourceColumn": "CityName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimRentalCity = Source{[Schema=\"dbo\",Item=\"DimRentalCity\"]}[Data]",
+                "in",
+                "    dbo_DimRentalCity"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimRentalCountry",
+        "columns": [
+          {
+            "name": "RentalCountryKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalCountryKey"
+          },
+          {
+            "name": "CountryID",
+            "dataType": "int64",
+            "sourceColumn": "CountryID"
+          },
+          {
+            "name": "CountryName",
+            "dataType": "string",
+            "sourceColumn": "CountryName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimRentalCountry = Source{[Schema=\"dbo\",Item=\"DimRentalCountry\"]}[Data]",
+                "in",
+                "    dbo_DimRentalCountry"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimStore",
+        "columns": [
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "sourceColumn": "StoreKey"
+          },
+          {
+            "name": "StoreID",
+            "dataType": "int64",
+            "sourceColumn": "StoreID"
+          },
+          {
+            "name": "StoreManagerFirstName",
+            "dataType": "string",
+            "sourceColumn": "StoreManagerFirstName"
+          },
+          {
+            "name": "StoreManagerLastName",
+            "dataType": "string",
+            "sourceColumn": "StoreManagerLastName"
+          },
+          {
+            "name": "StoreManagerEmail",
+            "dataType": "string",
+            "sourceColumn": "StoreManagerEmail"
+          },
+          {
+            "name": "StoreAddressLine1",
+            "dataType": "string",
+            "sourceColumn": "StoreAddressLine1"
+          },
+          {
+            "name": "StoreAddressLine2",
+            "dataType": "string",
+            "sourceColumn": "StoreAddressLine2"
+          },
+          {
+            "name": "StoreDistrict",
+            "dataType": "string",
+            "sourceColumn": "StoreDistrict"
+          },
+          {
+            "name": "StoreCity",
+            "dataType": "string",
+            "sourceColumn": "StoreCity"
+          },
+          {
+            "name": "StoreCountry",
+            "dataType": "string",
+            "sourceColumn": "StoreCountry"
+          },
+          {
+            "name": "StorePostalCode",
+            "dataType": "string",
+            "sourceColumn": "StorePostalCode"
+          },
+          {
+            "name": "StorePhone",
+            "dataType": "string",
+            "sourceColumn": "StorePhone"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_DimStore = Source{[Schema=\"dbo\",Item=\"DimStore\"]}[Data]",
+                "in",
+                "    dbo_DimStore"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "FactRental",
+        "columns": [
+          {
+            "name": "RentalKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalKey"
+          },
+          {
+            "name": "RentalID",
+            "dataType": "int64",
+            "sourceColumn": "RentalID"
+          },
+          {
+            "name": "RentalDate",
+            "dataType": "dateTime",
+            "sourceColumn": "RentalDate"
+          },
+          {
+            "name": "ReturnDate",
+            "dataType": "dateTime",
+            "sourceColumn": "ReturnDate"
+          },
+          {
+            "name": "RentalDuration",
+            "dataType": "int64",
+            "sourceColumn": "RentalDuration"
+          },
+          {
+            "name": "Amount",
+            "dataType": "double",
+            "sourceColumn": "Amount"
+          },
+          {
+            "name": "PaymentDate",
+            "dataType": "dateTime",
+            "sourceColumn": "PaymentDate"
+          },
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "FilmCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmCategoryKey"
+          },
+          {
+            "name": "FilmLanguageKey",
+            "dataType": "int64",
+            "sourceColumn": "FilmLanguageKey"
+          },
+          {
+            "name": "RentalCityKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalCityKey"
+          },
+          {
+            "name": "RentalCountryKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalCountryKey"
+          },
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "sourceColumn": "StoreKey"
+          },
+          {
+            "name": "RentalDateKey",
+            "dataType": "int64",
+            "sourceColumn": "RentalDateKey"
+          },
+          {
+            "name": "ReturnDateKey",
+            "dataType": "int64",
+            "sourceColumn": "ReturnDateKey"
+          },
+          {
+            "name": "PaymentDateKey",
+            "dataType": "int64",
+            "sourceColumn": "PaymentDateKey"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_FactRental = Source{[Schema=\"dbo\",Item=\"FactRental\"]}[Data]",
+                "in",
+                "    dbo_FactRental"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "94698d47-5f6a-41f5-a2da-b925d23b9bd3",
+        "fromTable": "FactRental",
+        "fromColumn": "PaymentDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "9aed9c52-ed76-4691-b3ef-dab7344ece4c",
+        "fromTable": "FactRental",
+        "fromColumn": "ReturnDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "30c92296-4939-4734-bd09-58df71073493",
+        "fromTable": "FactRental",
+        "fromColumn": "RentalDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "f58a6dd7-d5b7-4e59-af10-aed78a47db6c",
+        "fromTable": "FactRental",
+        "fromColumn": "FilmKey",
+        "toTable": "DimFilm",
+        "toColumn": "FilmKey"
+      },
+      {
+        "name": "a82bdea0-825b-471c-a143-5f48780e377d",
+        "fromTable": "FactRental",
+        "fromColumn": "FilmCategoryKey",
+        "toTable": "DimFilmCategory",
+        "toColumn": "FilmCategoryKey"
+      },
+      {
+        "name": "1dd27773-6bd3-4fd9-863d-9f183fad3db5",
+        "fromTable": "FactRental",
+        "fromColumn": "FilmLanguageKey",
+        "toTable": "DimFilmLanguage",
+        "toColumn": "FilmLanguageKey"
+      },
+      {
+        "name": "f76e3d14-65b2-4ba4-a679-df5363b82db1",
+        "fromTable": "FactRental",
+        "fromColumn": "RentalCityKey",
+        "toTable": "DimRentalCity",
+        "toColumn": "RentalCityKey"
+      },
+      {
+        "name": "a48e7d08-9a96-4f70-9cda-28e54c9ad797",
+        "fromTable": "FactRental",
+        "fromColumn": "RentalCountryKey",
+        "toTable": "DimRentalCountry",
+        "toColumn": "RentalCountryKey"
+      },
+      {
+        "name": "5e47c0d9-e304-44a1-91ef-c2c85c1f61ef",
+        "fromTable": "FactRental",
+        "fromColumn": "StoreKey",
+        "toTable": "DimStore",
+        "toColumn": "StoreKey"
+      }
+    ],
     "annotations": [
       {
         "name": "ClientCompatibilityLevel",
