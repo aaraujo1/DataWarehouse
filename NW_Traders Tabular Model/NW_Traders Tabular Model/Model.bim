@@ -291,56 +291,61 @@
           {
             "name": "ProductKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "ProductKey"
           },
           {
             "name": "ProductID",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "ProductID"
           },
           {
-            "name": "ProductName",
+            "name": "Product Name",
             "dataType": "string",
             "sourceColumn": "ProductName"
           },
           {
-            "name": "CategoryName",
+            "name": "Product Category",
             "dataType": "string",
             "sourceColumn": "CategoryName"
           },
           {
-            "name": "SupplierName",
+            "name": "Supplier",
             "dataType": "string",
             "sourceColumn": "SupplierName"
           },
           {
-            "name": "QtyPerUnit",
+            "name": "Quantity per Unit",
             "dataType": "string",
             "sourceColumn": "QtyPerUnit"
           },
           {
-            "name": "WholesalePrice",
+            "name": "Wholesale Price",
             "dataType": "double",
             "sourceColumn": "WholesalePrice"
           },
           {
-            "name": "ProductStatus",
+            "name": "Product Status",
             "dataType": "string",
             "sourceColumn": "ProductStatus"
           },
           {
             "name": "StartWhen",
             "dataType": "dateTime",
+            "isHidden": true,
             "sourceColumn": "StartWhen"
           },
           {
             "name": "EndWhen",
             "dataType": "dateTime",
+            "isHidden": true,
             "sourceColumn": "EndWhen"
           },
           {
             "name": "CurrentRecord",
             "dataType": "string",
+            "isHidden": true,
             "sourceColumn": "CurrentRecord"
           }
         ],
