@@ -286,7 +286,7 @@
         ]
       },
       {
-        "name": "DimProduct",
+        "name": "Products",
         "columns": [
           {
             "name": "ProductKey",
@@ -689,7 +689,7 @@
         "name": "489168be-420c-4083-adcd-6ee38e8ce127",
         "fromTable": "Orders",
         "fromColumn": "ProductKey",
-        "toTable": "DimProduct",
+        "toTable": "Products",
         "toColumn": "ProductKey"
       },
       {
