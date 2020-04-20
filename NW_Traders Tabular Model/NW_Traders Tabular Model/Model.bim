@@ -3,6 +3,705 @@
   "compatibilityLevel": 1500,
   "model": {
     "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/localhost;NW_Traders_DW_old",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "localhost",
+            "database": "NW_Traders_DW_old"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "Username": "bitdw\\bitstudent",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "DimCustomer",
+        "columns": [
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "CustomerID",
+            "dataType": "string",
+            "sourceColumn": "CustomerID"
+          },
+          {
+            "name": "CompanyName",
+            "dataType": "string",
+            "sourceColumn": "CompanyName"
+          },
+          {
+            "name": "ContactName",
+            "dataType": "string",
+            "sourceColumn": "ContactName"
+          },
+          {
+            "name": "ContactTitle",
+            "dataType": "string",
+            "sourceColumn": "ContactTitle"
+          },
+          {
+            "name": "Address",
+            "dataType": "string",
+            "sourceColumn": "Address"
+          },
+          {
+            "name": "City",
+            "dataType": "string",
+            "sourceColumn": "City"
+          },
+          {
+            "name": "StateOrRegion",
+            "dataType": "string",
+            "sourceColumn": "StateOrRegion"
+          },
+          {
+            "name": "CityState",
+            "dataType": "string",
+            "sourceColumn": "CityState"
+          },
+          {
+            "name": "PostalCode",
+            "dataType": "string",
+            "sourceColumn": "PostalCode"
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country"
+          },
+          {
+            "name": "StartWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "StartWhen"
+          },
+          {
+            "name": "EndWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "EndWhen"
+          },
+          {
+            "name": "CurrentRecord",
+            "dataType": "string",
+            "sourceColumn": "CurrentRecord"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimCustomer = Source{[Schema=\"dbo\",Item=\"DimCustomer\"]}[Data]",
+                "in",
+                "    dbo_DimCustomer"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimDate",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date"
+          },
+          {
+            "name": "DayOfWeek",
+            "dataType": "int64",
+            "sourceColumn": "DayOfWeek"
+          },
+          {
+            "name": "DayName",
+            "dataType": "string",
+            "sourceColumn": "DayName"
+          },
+          {
+            "name": "DayOfMonth",
+            "dataType": "int64",
+            "sourceColumn": "DayOfMonth"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName"
+          },
+          {
+            "name": "Month",
+            "dataType": "int64",
+            "sourceColumn": "Month"
+          },
+          {
+            "name": "Year",
+            "dataType": "int64",
+            "sourceColumn": "Year"
+          },
+          {
+            "name": "DayOfYear",
+            "dataType": "int64",
+            "sourceColumn": "DayOfYear"
+          },
+          {
+            "name": "YearMonth",
+            "dataType": "int64",
+            "sourceColumn": "YearMonth"
+          },
+          {
+            "name": "Quarter",
+            "dataType": "int64",
+            "sourceColumn": "Quarter"
+          },
+          {
+            "name": "QuarterName",
+            "dataType": "string",
+            "sourceColumn": "QuarterName"
+          },
+          {
+            "name": "YearQuarter",
+            "dataType": "string",
+            "sourceColumn": "YearQuarter"
+          },
+          {
+            "name": "WeekOfYear",
+            "dataType": "int64",
+            "sourceColumn": "WeekOfYear"
+          },
+          {
+            "type": "calculated",
+            "name": "Month Description",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Month]&\" - \"&[MonthName]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data]",
+                "in",
+                "    dbo_DimDate"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimEmployee",
+        "columns": [
+          {
+            "name": "EmployeeKey",
+            "dataType": "int64",
+            "sourceColumn": "EmployeeKey"
+          },
+          {
+            "name": "EmployeeID",
+            "dataType": "int64",
+            "sourceColumn": "EmployeeID"
+          },
+          {
+            "name": "FirstName",
+            "dataType": "string",
+            "sourceColumn": "FirstName"
+          },
+          {
+            "name": "LastName",
+            "dataType": "string",
+            "sourceColumn": "LastName"
+          },
+          {
+            "name": "FullName",
+            "dataType": "string",
+            "sourceColumn": "FullName"
+          },
+          {
+            "name": "JobTitle",
+            "dataType": "string",
+            "sourceColumn": "JobTitle"
+          },
+          {
+            "name": "EmployeeStatus",
+            "dataType": "string",
+            "sourceColumn": "EmployeeStatus"
+          },
+          {
+            "name": "StartWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "StartWhen"
+          },
+          {
+            "name": "EndWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "EndWhen"
+          },
+          {
+            "name": "CurrentRecord",
+            "dataType": "string",
+            "sourceColumn": "CurrentRecord"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimEmployee = Source{[Schema=\"dbo\",Item=\"DimEmployee\"]}[Data]",
+                "in",
+                "    dbo_DimEmployee"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimProduct",
+        "columns": [
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductKey"
+          },
+          {
+            "name": "ProductID",
+            "dataType": "int64",
+            "sourceColumn": "ProductID"
+          },
+          {
+            "name": "ProductName",
+            "dataType": "string",
+            "sourceColumn": "ProductName"
+          },
+          {
+            "name": "CategoryName",
+            "dataType": "string",
+            "sourceColumn": "CategoryName"
+          },
+          {
+            "name": "SupplierName",
+            "dataType": "string",
+            "sourceColumn": "SupplierName"
+          },
+          {
+            "name": "QtyPerUnit",
+            "dataType": "string",
+            "sourceColumn": "QtyPerUnit"
+          },
+          {
+            "name": "WholesalePrice",
+            "dataType": "double",
+            "sourceColumn": "WholesalePrice"
+          },
+          {
+            "name": "ProductStatus",
+            "dataType": "string",
+            "sourceColumn": "ProductStatus"
+          },
+          {
+            "name": "StartWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "StartWhen"
+          },
+          {
+            "name": "EndWhen",
+            "dataType": "dateTime",
+            "sourceColumn": "EndWhen"
+          },
+          {
+            "name": "CurrentRecord",
+            "dataType": "string",
+            "sourceColumn": "CurrentRecord"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimProduct = Source{[Schema=\"dbo\",Item=\"DimProduct\"]}[Data]",
+                "in",
+                "    dbo_DimProduct"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimShipper",
+        "columns": [
+          {
+            "name": "ShipperKey",
+            "dataType": "int64",
+            "sourceColumn": "ShipperKey"
+          },
+          {
+            "name": "ShipperID",
+            "dataType": "int64",
+            "sourceColumn": "ShipperID"
+          },
+          {
+            "name": "ShipperName",
+            "dataType": "string",
+            "sourceColumn": "ShipperName"
+          },
+          {
+            "name": "PrevShipperName",
+            "dataType": "string",
+            "sourceColumn": "PrevShipperName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimShipper = Source{[Schema=\"dbo\",Item=\"DimShipper\"]}[Data]",
+                "in",
+                "    dbo_DimShipper"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimSupplier",
+        "columns": [
+          {
+            "name": "SupplierKey",
+            "dataType": "int64",
+            "sourceColumn": "SupplierKey"
+          },
+          {
+            "name": "SupplierID",
+            "dataType": "int64",
+            "sourceColumn": "SupplierID"
+          },
+          {
+            "name": "SupplierName",
+            "dataType": "string",
+            "sourceColumn": "SupplierName"
+          },
+          {
+            "name": "SupplierContactName",
+            "dataType": "string",
+            "sourceColumn": "SupplierContactName"
+          },
+          {
+            "name": "PrevSupplierName",
+            "dataType": "string",
+            "sourceColumn": "PrevSupplierName"
+          },
+          {
+            "name": "PrevSupplierContactName",
+            "dataType": "string",
+            "sourceColumn": "PrevSupplierContactName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_DimSupplier = Source{[Schema=\"dbo\",Item=\"DimSupplier\"]}[Data]",
+                "in",
+                "    dbo_DimSupplier"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Orders",
+        "columns": [
+          {
+            "name": "OrderLineKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "OrderLineKey"
+          },
+          {
+            "name": "LineID",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "LineID"
+          },
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ProductKey"
+          },
+          {
+            "name": "OrderDateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "OrderDateKey"
+          },
+          {
+            "name": "Order Date Time",
+            "dataType": "dateTime",
+            "sourceColumn": "OrderDateTime"
+          },
+          {
+            "name": "RequiredDateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "RequiredDateKey"
+          },
+          {
+            "name": "Required Date Time",
+            "dataType": "dateTime",
+            "sourceColumn": "RequiredDateTime"
+          },
+          {
+            "name": "ShippedDateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ShippedDateKey"
+          },
+          {
+            "name": "Shipped Date Time",
+            "dataType": "dateTime",
+            "sourceColumn": "ShippedDateTime"
+          },
+          {
+            "name": "EmployeeKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "EmployeeKey"
+          },
+          {
+            "name": "ShipperKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ShipperKey"
+          },
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "SupplierKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "SupplierKey"
+          },
+          {
+            "name": "Quantity",
+            "dataType": "int64",
+            "sourceColumn": "Quantity"
+          },
+          {
+            "name": "Unit List Price",
+            "dataType": "double",
+            "sourceColumn": "UnitListPrice"
+          },
+          {
+            "name": "Unit Discount Amount",
+            "dataType": "double",
+            "sourceColumn": "UnitDiscount"
+          },
+          {
+            "name": "Unit Net Price",
+            "dataType": "double",
+            "sourceColumn": "UnitNetPrice"
+          },
+          {
+            "name": "Extended List Price",
+            "dataType": "double",
+            "sourceColumn": "ExtendedListPrice"
+          },
+          {
+            "name": "Extended Discount",
+            "dataType": "double",
+            "sourceColumn": "ExtendedDiscount"
+          },
+          {
+            "name": "Extended Net Price",
+            "dataType": "double",
+            "sourceColumn": "ExtendedNetPrice"
+          },
+          {
+            "name": "Cost Allocated Freight",
+            "dataType": "double",
+            "sourceColumn": "CostAllocatedFreight"
+          },
+          {
+            "type": "calculated",
+            "name": "Line Total",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": "[Extended Net Price]*[Quantity]"
+          },
+          {
+            "type": "calculated",
+            "name": "Unit Discount %",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": "[Unit Discount Amount]/[Unit List Price]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_FactOrder = Source{[Schema=\"dbo\",Item=\"FactOrder\"]}[Data],",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(dbo_FactOrder,{{\"UnitNetPrice\", type number}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Sales Measures",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "col1",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "sourceColumn": "[col1]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " DataTable(\"col1\", STRING,{{\"\"}})"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Sales",
+            "expression": "SUM(Orders[Line Total])"
+          },
+          {
+            "name": "Total Discounts",
+            "expression": "SUM(Orders[Extended Discount])"
+          },
+          {
+            "name": "Total Units Sold",
+            "expression": "SUM(Orders[Quantity])"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "710ab6fd-ca6a-40f7-903f-d84589f4a7ff",
+        "fromTable": "Orders",
+        "fromColumn": "RequiredDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "4f52045e-408a-40e8-99cb-8ae617dcbb0b",
+        "fromTable": "Orders",
+        "fromColumn": "ShippedDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey",
+        "isActive": false
+      },
+      {
+        "name": "b4f7f67f-56d9-44da-94ea-b847e7285136",
+        "fromTable": "Orders",
+        "fromColumn": "CustomerKey",
+        "toTable": "DimCustomer",
+        "toColumn": "CustomerKey"
+      },
+      {
+        "name": "83900477-85d4-4069-99d5-d0ec6193da6a",
+        "fromTable": "Orders",
+        "fromColumn": "OrderDateKey",
+        "toTable": "DimDate",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "9e2f9431-3959-4601-8fcd-a68812f28bcc",
+        "fromTable": "Orders",
+        "fromColumn": "EmployeeKey",
+        "toTable": "DimEmployee",
+        "toColumn": "EmployeeKey"
+      },
+      {
+        "name": "489168be-420c-4083-adcd-6ee38e8ce127",
+        "fromTable": "Orders",
+        "fromColumn": "ProductKey",
+        "toTable": "DimProduct",
+        "toColumn": "ProductKey"
+      },
+      {
+        "name": "6db5b949-ac8c-46dc-835d-8632993b3730",
+        "fromTable": "Orders",
+        "fromColumn": "ShipperKey",
+        "toTable": "DimShipper",
+        "toColumn": "ShipperKey"
+      },
+      {
+        "name": "56552a0c-0eb5-4b9a-80ff-de913be18f07",
+        "fromTable": "Orders",
+        "fromColumn": "SupplierKey",
+        "toTable": "DimSupplier",
+        "toColumn": "SupplierKey"
+      }
+    ],
     "annotations": [
       {
         "name": "ClientCompatibilityLevel",
