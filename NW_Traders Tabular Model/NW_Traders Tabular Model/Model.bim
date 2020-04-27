@@ -19,6 +19,8 @@
         "options": {},
         "credential": {
           "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "localhost;NW_Traders_DW_old",
           "Username": "bitdw\\bitstudent",
           "EncryptConnection": false
         }
@@ -117,35 +119,38 @@
         ]
       },
       {
-        "name": "DimDate",
+        "name": "Date",
+        "dataCategory": "Time",
         "columns": [
           {
             "name": "DateKey",
             "dataType": "int64",
+            "isHidden": true,
             "sourceColumn": "DateKey"
           },
           {
             "name": "Date",
             "dataType": "dateTime",
+            "isKey": true,
             "sourceColumn": "Date"
           },
           {
-            "name": "DayOfWeek",
+            "name": "Day Of Week",
             "dataType": "int64",
             "sourceColumn": "DayOfWeek"
           },
           {
-            "name": "DayName",
+            "name": "Day Name",
             "dataType": "string",
             "sourceColumn": "DayName"
           },
           {
-            "name": "DayOfMonth",
+            "name": "Day Of Month",
             "dataType": "int64",
             "sourceColumn": "DayOfMonth"
           },
           {
-            "name": "MonthName",
+            "name": "Month Name",
             "dataType": "string",
             "sourceColumn": "MonthName"
           },
@@ -160,12 +165,12 @@
             "sourceColumn": "Year"
           },
           {
-            "name": "DayOfYear",
+            "name": "Day Of Year",
             "dataType": "int64",
             "sourceColumn": "DayOfYear"
           },
           {
-            "name": "YearMonth",
+            "name": "Year Month",
             "dataType": "int64",
             "sourceColumn": "YearMonth"
           },
@@ -175,17 +180,17 @@
             "sourceColumn": "Quarter"
           },
           {
-            "name": "QuarterName",
+            "name": "Quarter Name",
             "dataType": "string",
             "sourceColumn": "QuarterName"
           },
           {
-            "name": "YearQuarter",
+            "name": "Year Quarter",
             "dataType": "string",
             "sourceColumn": "YearQuarter"
           },
           {
-            "name": "WeekOfYear",
+            "name": "Week Of Year",
             "dataType": "int64",
             "sourceColumn": "WeekOfYear"
           },
@@ -194,7 +199,14 @@
             "name": "Month Description",
             "dataType": "string",
             "isDataTypeInferred": true,
-            "expression": "[Month]&\" - \"&[MonthName]"
+            "expression": "[Month]&\" - \"&[Month Name]"
+          },
+          {
+            "type": "calculated",
+            "name": "Week Description",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Day Of Week]& \" - \" & [Day Name]"
           }
         ],
         "partitions": [
@@ -206,11 +218,45 @@
               "expression": [
                 "let",
                 "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
-                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data]",
+                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(dbo_DimDate, each [Date] <= DateTime.LocalNow()),",
+                "    #\"Sorted Rows\" = Table.Sort(#\"Filtered Rows\",{{\"Date\", Order.Descending}})",
                 "in",
-                "    dbo_DimDate"
+                "    #\"Sorted Rows\""
               ]
             }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Calendar",
+            "levels": [
+              {
+                "name": "Year",
+                "ordinal": 0,
+                "column": "Year"
+              },
+              {
+                "name": "Quarter",
+                "ordinal": 1,
+                "column": "Quarter"
+              },
+              {
+                "name": "Month Description",
+                "ordinal": 2,
+                "column": "Month Description"
+              },
+              {
+                "name": "Week Description",
+                "ordinal": 3,
+                "column": "Week Description"
+              },
+              {
+                "name": "Day Of Month",
+                "ordinal": 4,
+                "column": "Day Of Month"
+              }
+            ]
           }
         ]
       },
@@ -589,6 +635,20 @@
             "dataType": "double",
             "isDataTypeInferred": true,
             "expression": "[Unit Discount Amount]/[Unit List Price]"
+          },
+          {
+            "type": "calculated",
+            "name": "Days To Ship",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "DATEDIFF([Order Date Time],[Shipped Date Time],DAY)"
+          },
+          {
+            "type": "calculated",
+            "name": "Days Overdue",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "IF(DATEDIFF([Required Date Time],[Shipped Date Time],DAY)>0,DATEDIFF([Required Date Time],[Shipped Date Time],DAY),BLANK())"
           }
         ],
         "partitions": [
@@ -643,6 +703,30 @@
           {
             "name": "Total Units Sold",
             "expression": "SUM(Orders[Quantity])"
+          },
+          {
+            "name": "Average Days To Ship",
+            "expression": "AVERAGE(Orders[Days To Ship])"
+          },
+          {
+            "name": "Average Days Overdue",
+            "expression": "AVERAGE(Orders[Days Overdue])"
+          },
+          {
+            "name": "Year To Date Sales",
+            "expression": "TOTALYTD([Total Sales],'Date'[Date])"
+          },
+          {
+            "name": "Sales Last Year",
+            "expression": "CALCULATE([Total Sales],PARALLELPERIOD('Date'[Date],-1,YEAR))"
+          },
+          {
+            "name": "Year Over Years Sales",
+            "expression": "[Year To Date Sales]-'Sales Measures'[Sales Last Year]"
+          },
+          {
+            "name": "Amount Shipped $",
+            "expression": "CALCULATE([Total Sales],USERELATIONSHIP(Orders[ShippedDateKey],'Date'[DateKey]))"
           }
         ]
       }
@@ -652,7 +736,7 @@
         "name": "710ab6fd-ca6a-40f7-903f-d84589f4a7ff",
         "fromTable": "Orders",
         "fromColumn": "RequiredDateKey",
-        "toTable": "DimDate",
+        "toTable": "Date",
         "toColumn": "DateKey",
         "isActive": false
       },
@@ -660,7 +744,7 @@
         "name": "4f52045e-408a-40e8-99cb-8ae617dcbb0b",
         "fromTable": "Orders",
         "fromColumn": "ShippedDateKey",
-        "toTable": "DimDate",
+        "toTable": "Date",
         "toColumn": "DateKey",
         "isActive": false
       },
@@ -675,7 +759,7 @@
         "name": "83900477-85d4-4069-99d5-d0ec6193da6a",
         "fromTable": "Orders",
         "fromColumn": "OrderDateKey",
-        "toTable": "DimDate",
+        "toTable": "Date",
         "toColumn": "DateKey"
       },
       {
@@ -705,6 +789,20 @@
         "fromColumn": "SupplierKey",
         "toTable": "DimSupplier",
         "toColumn": "SupplierKey"
+      }
+    ],
+    "roles": [
+      {
+        "name": "Process Database",
+        "modelPermission": "refresh"
+      },
+      {
+        "name": "Sales Reporting User",
+        "modelPermission": "read"
+      },
+      {
+        "name": "Sales Reporting Administrators",
+        "modelPermission": "administrator"
       }
     ],
     "annotations": [
