@@ -410,6 +410,23 @@
               ]
             }
           }
+        ],
+        "hierarchies": [
+          {
+            "name": "Product Hierarchy",
+            "levels": [
+              {
+                "name": "Product Category",
+                "ordinal": 0,
+                "column": "Product Category"
+              },
+              {
+                "name": "Product Name",
+                "ordinal": 1,
+                "column": "Product Name"
+              }
+            ]
+          }
         ]
       },
       {
@@ -727,6 +744,18 @@
           {
             "name": "Amount Shipped $",
             "expression": "CALCULATE([Total Sales],USERELATIONSHIP(Orders[ShippedDateKey],'Date'[DateKey]))"
+          },
+          {
+            "name": "Average Sales",
+            "expression": " AVERAGE(Orders[Line Total])"
+          },
+          {
+            "name": "Total Orders",
+            "expression": "COUNT(Orders[LineID])"
+          },
+          {
+            "name": "Total Shipped Orders",
+            "expression": "COUNT(Orders[Shipped Date Time])"
           }
         ]
       }
