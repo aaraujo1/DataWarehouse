@@ -29,6 +29,7 @@
     "tables": [
       {
         "name": "Dates",
+        "dataCategory": "Time",
         "columns": [
           {
             "name": "DateKey",
@@ -39,6 +40,7 @@
           {
             "name": "Date",
             "dataType": "dateTime",
+            "isKey": true,
             "sourceColumn": "Date"
           },
           {
@@ -89,6 +91,20 @@
             "dataType": "string",
             "isDataTypeInferred": true,
             "expression": "[Day Of The Week Name]&\", \"&[Date Text]"
+          },
+          {
+            "type": "calculated",
+            "name": "Month Description",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Month Number]&\" - \"&[Month Name]"
+          },
+          {
+            "type": "calculated",
+            "name": "Week Description",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "[Day Of The Week Number]&\" - \"&[Day Of The Week Name]"
           }
         ],
         "partitions": [
@@ -100,11 +116,40 @@
               "expression": [
                 "let",
                 "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
-                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data]",
+                "    dbo_DimDate = Source{[Schema=\"dbo\",Item=\"DimDate\"]}[Data],",
+                "    #\"Filtered Rows\" = Table.SelectRows(dbo_DimDate, each [Date] <= Date.From(DateTime.LocalNow()) and [Date] <> #date(1900, 1, 1)),",
+                "    #\"Sorted Rows\" = Table.Sort(#\"Filtered Rows\",{{\"Date\", Order.Ascending}})",
                 "in",
-                "    dbo_DimDate"
+                "    #\"Sorted Rows\""
               ]
             }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Calendar",
+            "levels": [
+              {
+                "name": "Year",
+                "ordinal": 0,
+                "column": "Year"
+              },
+              {
+                "name": "Month Description",
+                "ordinal": 1,
+                "column": "Month Description"
+              },
+              {
+                "name": "Week Description",
+                "ordinal": 2,
+                "column": "Week Description"
+              },
+              {
+                "name": "Day Of The Month",
+                "ordinal": 3,
+                "column": "Day Of The Month"
+              }
+            ]
           }
         ]
       },
@@ -536,7 +581,7 @@
             "name": "Rental Duration",
             "dataType": "int64",
             "isDataTypeInferred": true,
-            "expression": "DATEDIFF([Rental Date],[Return Date],DAY)"
+            "expression": "IF(DATEDIFF([Rental Date],[Return Date],DAY)>0,DATEDIFF([Rental Date],[Return Date],DAY),BLANK())"
           }
         ],
         "partitions": [
@@ -582,6 +627,26 @@
           {
             "name": "Total Rental Amount",
             "expression": "SUM(Rentals[Rental Amount])"
+          },
+          {
+            "name": "Total Year to Date",
+            "expression": "TOTALYTD([Total Rental Amount],Dates[Date])"
+          },
+          {
+            "name": "Total Month to Date",
+            "expression": "TOTALMTD([Total Rental Amount],Dates[Date])"
+          },
+          {
+            "name": "Average Payment",
+            "expression": "AVERAGE(Rentals[Rental Amount])"
+          },
+          {
+            "name": "Total Rentals",
+            "expression": "COUNT(Rentals[RentalKey])"
+          },
+          {
+            "name": "Average Rental Duration",
+            "expression": "AVERAGE(Rentals[Rental Duration])"
           }
         ]
       },
@@ -772,6 +837,13 @@
         "fromColumn": "StoreKey",
         "toTable": "Stores",
         "toColumn": "StoreKey"
+      },
+      {
+        "name": "d7b5dfb3-9eca-4634-88e1-e329839612a7",
+        "fromTable": "Rentals",
+        "fromColumn": "CustomerKey",
+        "toTable": "Customers",
+        "toColumn": "CustomerKey"
       }
     ],
     "annotations": [
