@@ -582,6 +582,27 @@
             "dataType": "int64",
             "isDataTypeInferred": true,
             "expression": "IF(DATEDIFF([Rental Date],[Return Date],DAY)>0,DATEDIFF([Rental Date],[Return Date],DAY),BLANK())"
+          },
+          {
+            "type": "calculated",
+            "name": "Calculated Column 1",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "CALCULATE(COUNTX(Rentals, GROUPBY(Rentals,[CustomerKey])))"
+          },
+          {
+            "type": "calculated",
+            "name": "Calculated Column 2",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "DISTINCTCOUNT([CustomerKey])"
+          },
+          {
+            "type": "calculated",
+            "name": "Calculated Column 3",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "CALCULATE(DISTINCTCOUNT([CustomerKey]),ALLEXCEPT(Rentals,Rentals[Rental Date]))"
           }
         ],
         "partitions": [
@@ -647,6 +668,18 @@
           {
             "name": "Average Rental Duration",
             "expression": "AVERAGE(Rentals[Rental Duration])"
+          },
+          {
+            "name": "Average Items on Rental",
+            "expression": "[Count of Distinct Rentals]/[Count of Distinct Payment Dates]"
+          },
+          {
+            "name": "Count of Distinct Payment Dates",
+            "expression": "DISTINCTCOUNT(Rentals[Payment Date])"
+          },
+          {
+            "name": "Count of Distinct Rentals",
+            "expression": "DISTINCTCOUNT(Rentals[RentalID])"
           }
         ]
       },
