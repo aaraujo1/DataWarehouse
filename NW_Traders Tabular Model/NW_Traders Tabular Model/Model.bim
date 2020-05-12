@@ -19,8 +19,6 @@
         "options": {},
         "credential": {
           "AuthenticationKind": "Windows",
-          "kind": "SQL",
-          "path": "localhost;NW_Traders_DW_old",
           "Username": "bitdw\\bitstudent",
           "EncryptConnection": false
         }
@@ -758,6 +756,68 @@
             "expression": "COUNT(Orders[Shipped Date Time])"
           }
         ]
+      },
+      {
+        "name": "Inventory",
+        "columns": [
+          {
+            "name": "InventoryKey",
+            "dataType": "int64",
+            "sourceColumn": "InventoryKey"
+          },
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductKey"
+          },
+          {
+            "name": "SupplierKey",
+            "dataType": "int64",
+            "sourceColumn": "SupplierKey"
+          },
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "UnitsInStock",
+            "dataType": "int64",
+            "sourceColumn": "UnitsInStock"
+          },
+          {
+            "name": "UnitsOnOrder",
+            "dataType": "int64",
+            "sourceColumn": "UnitsOnOrder"
+          },
+          {
+            "name": "CurrentValueOfInventory",
+            "dataType": "double",
+            "sourceColumn": "CurrentValueOfInventory"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;NW_Traders_DW_old\",",
+                "    dbo_FactInventory = Source{[Schema=\"dbo\",Item=\"FactInventory\"]}[Data]",
+                "in",
+                "    dbo_FactInventory"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Inventory Value",
+            "expression": "SUM([CurrentValueOfInventory])"
+          }
+        ]
       }
     ],
     "relationships": [
@@ -818,6 +878,31 @@
         "fromColumn": "SupplierKey",
         "toTable": "DimSupplier",
         "toColumn": "SupplierKey"
+      },
+      {
+        "name": "e9c49bc7-b27c-4ce8-9460-165ec9b3a047",
+        "fromCardinality": "one",
+        "fromTable": "Products",
+        "fromColumn": "ProductKey",
+        "toTable": "Inventory",
+        "toColumn": "ProductKey",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "9c75357a-b1b3-4d5f-be9b-f929221621de",
+        "fromTable": "Inventory",
+        "fromColumn": "SupplierKey",
+        "toTable": "DimSupplier",
+        "toColumn": "SupplierKey",
+        "isActive": false
+      },
+      {
+        "name": "e666fbb2-16d5-47a9-a2d0-734af1ca5ec7",
+        "fromTable": "Inventory",
+        "fromColumn": "DateKey",
+        "toTable": "Date",
+        "toColumn": "DateKey",
+        "isActive": false
       }
     ],
     "roles": [
