@@ -11,7 +11,7 @@
           "protocol": "tds",
           "address": {
             "server": "localhost",
-            "database": "SakilaDW_AGA"
+            "database": "SakilaDW_AGA_dev"
           },
           "authentication": null,
           "query": null
@@ -19,8 +19,6 @@
         "options": {},
         "credential": {
           "AuthenticationKind": "Windows",
-          "kind": "SQL",
-          "path": "localhost;SakilaDW_AGA",
           "Username": "bitdw\\bitstudent",
           "EncryptConnection": false
         }
@@ -803,6 +801,129 @@
             }
           }
         ]
+      },
+      {
+        "name": "Inventory",
+        "columns": [
+          {
+            "name": "InventoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "InventoryKey"
+          },
+          {
+            "name": "FilmKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmKey"
+          },
+          {
+            "name": "FilmCategoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmCategoryKey"
+          },
+          {
+            "name": "FilmLanguageKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "FilmLanguageKey"
+          },
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey"
+          },
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "Films Available",
+            "dataType": "int64",
+            "sourceColumn": "FilmsAvailable"
+          },
+          {
+            "name": "Films On Rental",
+            "dataType": "int64",
+            "sourceColumn": "FilmsOnRental"
+          },
+          {
+            "type": "calculated",
+            "name": "Total Films",
+            "dataType": "int64",
+            "isDataTypeInferred": true,
+            "expression": "[Films Available]+[Films On Rental]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/localhost;SakilaDW_AGA\",",
+                "    dbo_FactInventory = Source{[Schema=\"dbo\",Item=\"FactInventory\"]}[Data]",
+                "in",
+                "    dbo_FactInventory"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Inventory Measures",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "col1",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "sourceColumn": "[col1]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": " DATATABLE(\"col1\", string, {{\"\"}})"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Films Available",
+            "expression": " SUM(Inventory[Films Available])"
+          },
+          {
+            "name": "Total Films On Rent",
+            "expression": " SUM(Inventory[Films On Rental])"
+          },
+          {
+            "name": "Total Inventory",
+            "expression": "SUM(Inventory[Total Films])"
+          },
+          {
+            "name": "Average Films Available",
+            "expression": " AVERAGE(Inventory[Films Available])"
+          },
+          {
+            "name": "Average Films On Rent",
+            "expression": " AVERAGE(Inventory[Films On Rental])"
+          },
+          {
+            "name": "Average Total Films",
+            "expression": " AVERAGE(Inventory[Total Films])"
+          }
+        ]
       }
     ],
     "relationships": [
@@ -877,6 +998,41 @@
         "fromColumn": "CustomerKey",
         "toTable": "Customers",
         "toColumn": "CustomerKey"
+      },
+      {
+        "name": "f4d1c0cf-3b92-4e4a-9744-c669088d95cd",
+        "fromTable": "Inventory",
+        "fromColumn": "DateKey",
+        "toTable": "Dates",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "562f403a-7e8e-4d24-adac-64577209be99",
+        "fromTable": "Inventory",
+        "fromColumn": "StoreKey",
+        "toTable": "Stores",
+        "toColumn": "StoreKey"
+      },
+      {
+        "name": "e969f34a-6b92-42b7-af43-605149589ce0",
+        "fromTable": "Inventory",
+        "fromColumn": "FilmCategoryKey",
+        "toTable": "Film Categories",
+        "toColumn": "FilmCategoryKey"
+      },
+      {
+        "name": "fb0ed63d-74b3-453b-a04f-c17208c30382",
+        "fromTable": "Inventory",
+        "fromColumn": "FilmLanguageKey",
+        "toTable": "Film Languages",
+        "toColumn": "FilmLanguageKey"
+      },
+      {
+        "name": "29facefc-5529-48b0-82be-5f1a6c70b934",
+        "fromTable": "Inventory",
+        "fromColumn": "FilmKey",
+        "toTable": "Films",
+        "toColumn": "FilmKey"
       }
     ],
     "annotations": [
