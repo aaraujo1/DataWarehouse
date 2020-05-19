@@ -11,7 +11,7 @@
           "protocol": "tds",
           "address": {
             "server": "localhost",
-            "database": "SakilaDW_AGA_dev"
+            "database": "SakilaDW_AGA"
           },
           "authentication": null,
           "query": null
